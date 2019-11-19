@@ -6,16 +6,28 @@ import './app-body.scss';
 export default class AppBody extends Component {
     state = {  }
 
-    renderPokemons = () => {
-        const { getPokemons } = this.props;
-        console.log(getPokemons)
+    renderPokemons = (pokemons) => {
+        //console.log(pokemons)
+        pokemons.map( (item, index) => {
+            const { name, url } = item
+            console.log(item)
+            return (
+                <div key={ index } className="pokemon-single-container">
+                    <img className="sprite" src={ url } alt={ name } />
+                    <span className="align-bottom">{ name }</span>
+                </div>
+            );
+        } );
+        
     }
 
     render() {
-     
+        const { getPokemons } = this.props;
         return (
             <main className="app-body">
-                { this.renderPokemons }
+                <div className="pokemon-container">
+                    { this.renderPokemons(getPokemons) }
+                </div>
             </main> 
         );
     }

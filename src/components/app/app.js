@@ -19,8 +19,8 @@ export default class App extends Component {
         }).then(response => {
             if (response.ok) {
                 response.json().then(json => {
-                   // console.log(json.results[385].name);
-                   console.log(json)
+                    // console.log(json.results[385].name);
+                    // console.log(json)
                     this.setState({
                         pokemons: json.results
                     });
@@ -35,7 +35,7 @@ export default class App extends Component {
     };
 
     componentDidMount() {
-        this.getPokemon();
+        this.getPokemon()
     }
 
     render() {
