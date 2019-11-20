@@ -9,41 +9,11 @@ import AppBody from '../app-body';
 import './app.scss';
 
 export default class App extends Component {
-    state = { 
-        pokemons: []
-    }
-
-    getPokemon = () => {
-        fetch("https://pokeapi.co/api/v2/pokemon/?limit=386", {
-            method: "GET"
-        }).then(response => {
-            if (response.ok) {
-                response.json().then(json => {
-                    // console.log(json.results[385].name);
-                    // console.log(json)
-                    this.setState({
-                        pokemons: json.results
-                    });
-                });
-            } else {
-                this.setState({
-                    pokemons: response.status
-                });
-            }
-        });
-    
-    };
-
-    componentDidMount() {
-        this.getPokemon()
-    }
-
     render() {
-        const { pokemons } = this.state
         return (
             <div className="main-app">
                 <AppHeader />
-                <AppBody getPokemons={ pokemons } />
+                <AppBody />
                 <AppFooter copyright="This is footer copyright" />
             </div> 
         );

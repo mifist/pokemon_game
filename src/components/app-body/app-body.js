@@ -1,34 +1,60 @@
 /* Core */
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 /* Style */
 import './app-body.scss';
 
-export default class AppBody extends Component {
-    state = {  }
+/* Component */
+import PokemonsList from '../app-pokemons/pokemons-list';
 
-    renderPokemons = (pokemons) => {
-        //console.log(pokemons)
-        pokemons.map( (item, index) => {
-            const { name, url } = item
-            console.log(item)
-            return (
-                <div key={ index } className="pokemon-single-container">
-                    <img className="sprite" src={ url } alt={ name } />
-                    <span className="align-bottom">{ name }</span>
-                </div>
-            );
-        } );
-        
+
+export default class AppBody extends Component {
+    state = { 
+        pokemonsDatas: []  
+    }
+
+    getPokemonsData = ( item ) => {
+        fetch(item.url, {method: "GET"} )
+        .then(response => {
+            if (response.ok) {
+                response.json().then(json => {
+                    this.setState(({ pokemonsDatas }) => {
+                        const newPokemonsDatas = [...pokemonsDatas, json]
+                        return {
+                            pokemonsDatas: newPokemonsDatas
+                        }
+                    });
+                });
+            }
+        });
+    }
+
+    getPokemons = ( limit ) => {
+        fetch(`https://pokeapi.co/api/v2/pokemon/?limit=${limit}`, {method: "GET"} )
+        .then(response => {
+            if (response.ok) {
+                response.json().then(json => {
+                    json.results.map( item => this.getPokemonsData(item) )
+                });
+            } 
+        });
+    };
+
+
+    // called just before component rendering | Component Life Cycle
+    UNSAFE_componentWillMount() {  console.log("componentWillMount()"); }
+
+    // called after component rendering. Here you can query for remote resources | Component Life Cycle
+    componentDidMount() {
+        console.log("componentDidMount()")
+        this.getPokemons(136)
     }
 
     render() {
-        const { getPokemons } = this.props;
+        const { pokemonsDatas } = this.state
         return (
             <main className="app-body">
-                <div className="pokemon-container">
-                    { this.renderPokemons(getPokemons) }
-                </div>
-            </main> 
+                <PokemonsList pokemons={ pokemonsDatas }/>
+            </main>  
         );
     }
 }
