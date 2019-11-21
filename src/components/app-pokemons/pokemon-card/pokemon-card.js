@@ -5,10 +5,11 @@ import './pokemon-card.scss';
 
 const PokemonCard = ({ url, name }) => {
     return (
-        <div className="pokemon-card">
-            <img className="sprite" src="#" alt={ name } />
-            <span className="align-bottom">{ name }</span>
-        </div> 
+        <div key={ name } className="pokemon-card">
+            <img className="sprite" alt={ name } 
+                src={`http://pokestadium.com/sprites/xy/${name}.gif`} />
+            <a href={url} className="align-bottom" >{ name }</a>
+        </div>
     );
 }
 

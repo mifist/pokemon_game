@@ -17,10 +17,9 @@ export default class AppBody extends Component {
         .then(response => {
             if (response.ok) {
                 response.json().then(json => {
-                    this.setState(({ pokemonsDatas }) => {
-                        const newPokemonsDatas = [...pokemonsDatas, json]
+                    this.setState(( { pokemonsDatas })  => {
                         return {
-                            pokemonsDatas: newPokemonsDatas
+                            pokemonsDatas: [...pokemonsDatas, json]
                         }
                     });
                 });
@@ -46,7 +45,7 @@ export default class AppBody extends Component {
     // called after component rendering. Here you can query for remote resources | Component Life Cycle
     componentDidMount() {
         console.log("componentDidMount()")
-        this.getPokemons(136)
+        this.getPokemons(20)
     }
 
     render() {
