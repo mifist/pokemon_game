@@ -7,6 +7,7 @@ const AppFooter = ( { copyright } ) => {
     return (
         <footer className="app-footer">
             <p className="copyright">{ copyright }</p>
+            <span>Current Time: { (new Date()).toString() }</span>
         </footer>
     );
 }

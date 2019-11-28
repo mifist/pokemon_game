@@ -52,7 +52,15 @@ export default class AppBody extends Component {
         const { pokemonsDatas } = this.state
         return (
             <main className="app-body">
-                <PokemonsList pokemons={ pokemonsDatas }/>
+                <div className="container">
+                    <div className="row">
+                        <div className="col-md-12">
+                            <PokemonsList pokemons={ pokemonsDatas }/>
+                        </div>
+                    </div>
+                </div>
+            
+                
             </main>  
         );
     }
