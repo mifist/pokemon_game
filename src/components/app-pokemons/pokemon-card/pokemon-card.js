@@ -4,7 +4,7 @@ import React from 'react'
 import './pokemon-card.scss';
 
 const PokemonCard = ({ url, name, onPokemonSelected, pokemonKey }) => {
-  
+
     return (
         <div key={ name } className="pokemon-card" >
             <img className="sprite" alt={ name } 

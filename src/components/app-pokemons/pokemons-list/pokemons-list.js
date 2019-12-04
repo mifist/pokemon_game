@@ -6,6 +6,7 @@ import './pokemons-list.scss';
 import PokemonService from '../../../services/pokemon-service';
 /* Component */
 import PokemonCard from '../pokemon-card';
+import PokemonModal from '../pokemon-modal';
 
 
 export default class PokemonsList extends Component {
@@ -15,7 +16,8 @@ export default class PokemonsList extends Component {
     state = { 
         error: false,
         loading: false,
-        selectedPokemon: ''
+        selectedPokemon: '',
+        isPokemonModalOpen: false
     }
 
     // Handlers
@@ -30,6 +32,7 @@ export default class PokemonsList extends Component {
         if (pokemons) {
             // count, next, previous
             const { results } = pokemons
+
             return results.map( (item, key) => {
                 const { ...itemProps } = item
                 return (
@@ -44,10 +47,17 @@ export default class PokemonsList extends Component {
 
     // Events
     onPokemonSelected = ( name ) => {
-        console.log(name)
-        this.setState(({ name }) => {
+        this.setState((state) => {
             return {
-                selectedPokemon: name
+                selectedPokemon: name,
+                isPokemonModalOpen: !state.isPokemonModalOpen
+            }
+        })
+    }
+    onCloseModal = () => {
+        this.setState((state) => {
+            return {
+                isPokemonModalOpen: !state.isPokemonModalOpen
             }
         })
     }
@@ -55,9 +65,18 @@ export default class PokemonsList extends Component {
 
     render() {
         const { pokemons } = this.props
+        const { isPokemonModalOpen, selectedPokemon } = this.state
+        const modal = isPokemonModalOpen ? 
+                <PokemonModal 
+                    isOpen={ isPokemonModalOpen } 
+                    showPokemon={ selectedPokemon } 
+                    onClose={ this.onCloseModal }
+                /> : null
+
         return (
             <div className="pokemons-list pokemon-container">
                 { this.getAllPokemos(pokemons) }
+                { modal }
             </div> 
         );
     }
