@@ -2,60 +2,61 @@
 import React, {Component} from 'react';
 /* Style */
 import './app-body.scss';
-
+/* Services */
+import PokemonService from '../../services/pokemon-service';
 /* Component */
 import PokemonsList from '../app-pokemons/pokemons-list';
 
 
 export default class AppBody extends Component {
+
+    pokemonService = new PokemonService()
+
     state = { 
-        pokemonsDatas: []  
+        error: false,
+        loading: false
     }
 
-    getPokemonsData = ( item ) => {
-        fetch(item.url, {method: "GET"} )
-        .then(response => {
-            if (response.ok) {
-                response.json().then(json => {
-                    this.setState(( { pokemonsDatas })  => {
-                        return {
-                            pokemonsDatas: [...pokemonsDatas, json]
-                        }
-                    });
-                });
-            }
-        });
+    // Handlers
+    onError = (err) => {
+        this.setState({
+            error: true,
+            loading: false,
+            pokemons: []
+        })
     }
 
-    getPokemons = ( limit ) => {
-        fetch(`https://pokeapi.co/api/v2/pokemon/?limit=${limit}`, {method: "GET"} )
-        .then(response => {
-            if (response.ok) {
-                response.json().then(json => {
-                    json.results.map( item => this.getPokemonsData(item) )
-                });
-            } 
-        });
-    };
+    getPokemonsData = ( pokemons ) => {
+        console.log('getPokemonsData')
 
+        this.setState({
+            pokemons
+        })
+    }
 
     // called just before component rendering | Component Life Cycle
-    UNSAFE_componentWillMount() {  console.log("componentWillMount()"); }
+    UNSAFE_componentWillMount() { 
+        console.log("UNSAFE_componentWillMount()")
+        
+    }
 
     // called after component rendering. Here you can query for remote resources | Component Life Cycle
     componentDidMount() {
         console.log("componentDidMount()")
-        this.getPokemons(20)
+        this.pokemonService
+        .getLimitPokemons(28)
+        .then(this.getPokemonsData)
+        .catch(this.onError)
     }
 
     render() {
-        const { pokemonsDatas } = this.state
+        const { pokemons } = this.state
         return (
             <main className="app-body">
                 <div className="container">
                     <div className="row">
                         <div className="col-md-12">
-                            <PokemonsList pokemons={ pokemonsDatas }/>
+                            <PokemonsList pokemons={ pokemons } />
                         </div>
                     </div>
                 </div>

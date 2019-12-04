@@ -3,12 +3,19 @@ import React from 'react'
 /* Style */
 import './pokemon-card.scss';
 
-const PokemonCard = ({ url, name }) => {
+const PokemonCard = ({ url, name, onPokemonSelected, pokemonKey }) => {
+  
     return (
-        <div key={ name } className="pokemon-card">
+        <div key={ name } className="pokemon-card" >
             <img className="sprite" alt={ name } 
-                src={`http://pokestadium.com/sprites/xy/${name}.gif`} />
-            <a href={url} className="align-bottom" >{ name }</a>
+                src={`/pokemon-svg/${pokemonKey}.svg`} />
+            <div className="pokemon-card__footer">
+                <a href={url} className="pokemon-card__link">{ name } - {pokemonKey}</a>
+                <button type="button" className="btn btn-outline-info"
+                    onClick={ onPokemonSelected } >
+                    Info
+                </button>
+            </div>
         </div>
     );
 }

@@ -12,12 +12,12 @@ export default class PokemonService {
         return await res.json()
     }
 
-    getPokemon() {
-        const res = this.getResource(`/pokemon/`)
+    getPokemon(name) {
+        const res = this.getResource(`/pokemon/${name}`)
         return res
     }
-    getLimitPokemonUrl(limit) {
-        const res = this.getResource(`/pokemon/?limit=${limit}`)
+    async getLimitPokemons(limit) {
+        const res = await this.getResource(`/pokemon/?limit=${limit}`)
         return res
     }
     getPokemonAbility() {
@@ -139,7 +139,7 @@ export default class PokemonService {
         return res  
     }
     getLocationArea() {
-        const res = this.getResource(`/location/`)
+        const res = this.getResource(`/location-area/`)
         return res  
     }
     getRegion() {
@@ -218,10 +218,15 @@ export default class PokemonService {
         const res = this.getResource(`/growth-rate/`)
         return res 
     }
-   
 
-    
-   
-   
+
+    _transformLimitPokemons = (item) => {
+        return {
+            count: item.count,
+            next: item.next,
+            previous: item.previous,
+            pokemons: item.results
+        }
+    }
 
 }
