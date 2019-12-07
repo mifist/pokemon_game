@@ -13,7 +13,7 @@ const PokemonCard = ({ url, name, onPokemonSelected, pokemonKey }) => {
                 <a href={url} className="pokemon-card__link">{ name } - {pokemonKey}</a>
                 <button type="button" className="btn btn-outline-info"
                     onClick={ onPokemonSelected } >
-                    Info
+                    More Information
                 </button>
             </div>
         </div>

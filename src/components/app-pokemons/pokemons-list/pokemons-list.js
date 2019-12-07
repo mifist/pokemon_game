@@ -16,7 +16,6 @@ export default class PokemonsList extends Component {
     state = { 
         error: false,
         loading: false,
-        selectedPokemon: '',
         isPokemonModalOpen: false
     }
 
@@ -32,13 +31,13 @@ export default class PokemonsList extends Component {
         if (pokemons) {
             // count, next, previous
             const { results } = pokemons
-
             return results.map( (item, key) => {
                 const { ...itemProps } = item
                 return (
                     <div key={ item.name } className="pokemon-item" >
                         <PokemonCard { ...itemProps } pokemonKey={ key+1 }
-                            onPokemonSelected={ () => this.onPokemonSelected(item.name) } />
+                            onPokemonSelected={ () => this.onPokemonSelected(item.name) } 
+                            />
                     </div>
                 );
             } )
@@ -47,14 +46,18 @@ export default class PokemonsList extends Component {
 
     // Events
     onPokemonSelected = ( name ) => {
-        this.setState((state) => {
-            return {
-                selectedPokemon: name,
-                isPokemonModalOpen: !state.isPokemonModalOpen
-            }
+        this.onChangeModalState()
+        this.pokemonService
+        .getPokemon(name)
+        .then(( pokemon ) => {
+            this.setState({
+                selectedPokemon: pokemon
+            }) 
         })
+        .catch(this.onError)
     }
-    onCloseModal = () => {
+
+    onChangeModalState = () => {
         this.setState((state) => {
             return {
                 isPokemonModalOpen: !state.isPokemonModalOpen
@@ -70,7 +73,7 @@ export default class PokemonsList extends Component {
                 <PokemonModal 
                     isOpen={ isPokemonModalOpen } 
                     showPokemon={ selectedPokemon } 
-                    onClose={ this.onCloseModal }
+                    onChangeModal={ this.onChangeModalState }
                 /> : null
 
         return (

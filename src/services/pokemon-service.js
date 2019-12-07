@@ -138,8 +138,8 @@ export default class PokemonService {
         const res = this.getResource(`/location/`)
         return res  
     }
-    getLocationArea() {
-        const res = this.getResource(`/location-area/`)
+    getLocationArea(id) {
+        const res = this.getResource(`/location-area/${id}`)
         return res  
     }
     getRegion() {
