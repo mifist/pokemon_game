@@ -6,22 +6,28 @@ import pokeball from './images/pokeball.png';
 
 
 export default class PokemonModal extends Component {
-    state = {  }
 
-    getAbilitiesList = ( abilities ) => {
+    state = {}
+
+    getAbilitiesList = ( abilities, abilitiesInfo ) => {
         if ( abilities ) {
             return abilities.sort((a, b) => a.slot - b.slot ).map((item, key) => {
                 const { ability, is_hidden, slot } = item // is_hidden, ability.url
                 const hiddenClass = is_hidden ? ' is_hidden' : ''
+                if(abilitiesInfo) {
+                    console.log({abilitiesInfo})
+                }
+               
                 return (
-                    <li key={key}>
-                        <span className={ `abilities-list__item ability-item ${hiddenClass}` }>
-                            <span className="item-image">
-                                <img className="sprite" alt={ ability.name } src={ pokeball } />
+                    <li key={key} className={ `abilities-list__item  ${hiddenClass}` } >
+                        <span className="ability-item"  >
+                                <span className="item-image">
+                                    <img className="sprite" alt={ ability.name } src={ pokeball } />
+                                </span>
+                                <span className="item-name">{ ability.name }</span>
+                                <span className="item-slot">{ slot }</span>
                             </span>
-                            <span className="item-name">{ ability.name }</span>
-                            <span className="item-slot">{ slot }</span>
-                        </span>
+                        <span className="ability-description">sdgsd</span>
                     </li>
                 )
             })
@@ -32,11 +38,11 @@ export default class PokemonModal extends Component {
 
 
     render() {
-        const { isOpen, showPokemon, onChangeModal } = this.props
+        const { isOpen, showPokemon, onChangeModal, pokemonAbilities } = this.props
 
         const isOpenClass = isOpen ? 'pokemon-modal__open' : ''
         const pokemonInfo = showPokemon ? showPokemon : ''
-        console.log({pokemonInfo})
+    
         const { id, name, weight, height, base_experience, abilities } = pokemonInfo
         
         return (
@@ -59,7 +65,7 @@ export default class PokemonModal extends Component {
                         <li className="list-group-item">Base experience: {base_experience}</li>
                         <li className="list-group-item">
                             <ul className="abilities-list">
-                                { this.getAbilitiesList( abilities ) }
+                                { this.getAbilitiesList( abilities, pokemonAbilities ) }
                             </ul>
                         </li>
                         

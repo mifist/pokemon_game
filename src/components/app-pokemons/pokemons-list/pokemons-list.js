@@ -16,7 +16,9 @@ export default class PokemonsList extends Component {
     state = { 
         error: false,
         loading: false,
-        isPokemonModalOpen: false
+        isPokemonModalOpen: false,
+        isTooltipShow: false,
+        pokemonAbilitiesInfo: []
     }
 
     // Handlers
@@ -44,16 +46,32 @@ export default class PokemonsList extends Component {
         }
     }
 
+
+    onPokemonInfo( pokemon ) {
+        if( pokemon ) {
+            return pokemon.abilities.map(item => {
+                    this.pokemonService
+                    .getPokemonAbility(item.ability.name)
+                    .then(ability => {
+                        this.setState((previous) => {
+                            return {
+                                selectedPokemon: pokemon,
+                                pokemonAbilitiesInfo: [...previous.pokemonAbilitiesInfo, ability]
+                            }
+                        })
+                    })
+                    .catch(this.onError)
+            })
+        }
+        
+    }
+
     // Events
     onPokemonSelected = ( name ) => {
         this.onChangeModalState()
         this.pokemonService
         .getPokemon(name)
-        .then(( pokemon ) => {
-            this.setState({
-                selectedPokemon: pokemon
-            }) 
-        })
+        .then(( pokemon ) => this.onPokemonInfo(pokemon) )
         .catch(this.onError)
     }
 
@@ -64,16 +82,25 @@ export default class PokemonsList extends Component {
             }
         })
     }
-
+    onChangeTooltipState = () => {
+        this.setState((state) => {
+            return {
+                isTooltipShow: !state.isTooltipShow
+            }
+        })
+    }
 
     render() {
         const { pokemons } = this.props
-        const { isPokemonModalOpen, selectedPokemon } = this.state
+        const { isPokemonModalOpen, selectedPokemon, pokemonAbilitiesInfo } = this.state
+      
         const modal = isPokemonModalOpen ? 
                 <PokemonModal 
                     isOpen={ isPokemonModalOpen } 
                     showPokemon={ selectedPokemon } 
+                    pokemonAbilities={ pokemonAbilitiesInfo }
                     onChangeModal={ this.onChangeModalState }
+                    onChangeTooltip={ this.onChangeTooltipState }
                 /> : null
 
         return (

@@ -20,8 +20,8 @@ export default class PokemonService {
         const res = await this.getResource(`/pokemon/?limit=${limit}`)
         return res
     }
-    getPokemonAbility() {
-        const res = this.getResource(`/ability/`)
+    getPokemonAbility( ability_name ) {
+        const res = this.getResource(`/ability/${ability_name}`)
         return res
     }
     getPokemonColor() {

@@ -16,6 +16,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
+    flex-wrap: wrap;
     list-style: none;
     padding: 0;
     margin: 15px 0;
@@ -25,6 +26,8 @@
         flex-direction: row;
         align-items: center;
         justify-content: center;
+        width: 100%;
+        margin-bottom: 15px;
     }
 }
 .ability-item {
@@ -78,4 +81,7 @@
             }
         }
     }
+}
+.ability-description {
+    flex: 1;
 }
