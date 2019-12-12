@@ -17,12 +17,16 @@ export default class PokemonModal extends Component {
                 if(abilitiesInfo) {
                     console.log({abilitiesInfo})
                 }
-               
+                
                 return (
                     <li key={key} className={ `abilities-list__item  ${hiddenClass}` } >
                         <span className="ability-item"  >
                                 <span className="item-image">
-                                    <img className="sprite" alt={ ability.name } src={ pokeball } />
+                                    <img 
+                                        className="sprite" 
+                                        alt={ ability.name } 
+                                        src={ pokeball } 
+                                    />
                                 </span>
                                 <span className="item-name">{ ability.name }</span>
                                 <span className="item-slot">{ slot }</span>

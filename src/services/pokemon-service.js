@@ -13,16 +13,13 @@ export default class PokemonService {
     }
 
     getPokemon(name) {
-        const res = this.getResource(`/pokemon/${name}`)
-        return res
+        return this.getResource(`/pokemon/${name}`)
     }
-    async getLimitPokemons(limit) {
-        const res = await this.getResource(`/pokemon/?limit=${limit}`)
-        return res
+    getLimitPokemons(limit) {
+        return this.getResource(`/pokemon/?limit=${limit}`)
     }
     getPokemonAbility( ability_name ) {
-        const res = this.getResource(`/ability/${ability_name}`)
-        return res
+        return this.getResource(`/ability/${ability_name}`)
     }
     getPokemonColor() {
         const res = this.getResource(`/pokemon-color/`)

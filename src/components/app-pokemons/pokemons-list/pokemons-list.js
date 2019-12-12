@@ -29,8 +29,8 @@ export default class PokemonsList extends Component {
         })
     }
 
-    getAllPokemos = ( pokemons ) => {
-        if (pokemons) {
+    getAllPokemos( pokemons ) {
+        if ( pokemons ) {
             // count, next, previous
             const { results } = pokemons
             return results.map( (item, key) => {
@@ -43,27 +43,27 @@ export default class PokemonsList extends Component {
                     </div>
                 );
             } )
-        }
+        } 
     }
 
 
-    onPokemonInfo( pokemon ) {
+    onPokemonInfo = ( pokemon ) => {
         if( pokemon ) {
-            return pokemon.abilities.map(item => {
+            console.log({pokemon})
+            const { abilities } = pokemon
+            return abilities.map( item => {
                     this.pokemonService
                     .getPokemonAbility(item.ability.name)
                     .then(ability => {
                         this.setState((previous) => {
                             return {
-                                selectedPokemon: pokemon,
                                 pokemonAbilitiesInfo: [...previous.pokemonAbilitiesInfo, ability]
                             }
                         })
                     })
                     .catch(this.onError)
-            })
+            } )
         }
-        
     }
 
     // Events
@@ -71,7 +71,14 @@ export default class PokemonsList extends Component {
         this.onChangeModalState()
         this.pokemonService
         .getPokemon(name)
-        .then(( pokemon ) => this.onPokemonInfo(pokemon) )
+        .then(( pokemon ) => {
+            this.onPokemonInfo(pokemon)
+            this.setState((previous) => {
+                return {
+                    selectedPokemon: pokemon
+                }
+            })
+        } )
         .catch(this.onError)
     }
 
@@ -93,7 +100,7 @@ export default class PokemonsList extends Component {
     render() {
         const { pokemons } = this.props
         const { isPokemonModalOpen, selectedPokemon, pokemonAbilitiesInfo } = this.state
-      
+        
         const modal = isPokemonModalOpen ? 
                 <PokemonModal 
                     isOpen={ isPokemonModalOpen } 
