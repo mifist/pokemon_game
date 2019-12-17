@@ -100,20 +100,19 @@ export default class PokemonsList extends Component {
     render() {
         const { pokemons } = this.props
         const { isPokemonModalOpen, selectedPokemon, pokemonAbilitiesInfo } = this.state
-        
-        const modal = isPokemonModalOpen ? 
-                <PokemonModal 
+
+        const pokemonsList = this.getAllPokemos(pokemons)
+
+        return (
+            <div className="pokemons-list pokemon-container">
+                { pokemonsList }
+                { isPokemonModalOpen && <PokemonModal 
                     isOpen={ isPokemonModalOpen } 
                     showPokemon={ selectedPokemon } 
                     pokemonAbilities={ pokemonAbilitiesInfo }
                     onChangeModal={ this.onChangeModalState }
                     onChangeTooltip={ this.onChangeTooltipState }
-                /> : null
-
-        return (
-            <div className="pokemons-list pokemon-container">
-                { this.getAllPokemos(pokemons) }
-                { modal }
+                /> }
             </div> 
         );
     }
